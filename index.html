@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Text Animation using Blotter.js | Crimson</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/blotter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/channelSplitMaterial.js"></script>
+</head>
+<body>
+    <div id="text"></div>
+    <script>
+
+        var innerText = document.getElementById("text");
+        var text = new Blotter.Text("Crimson",{
+            family: "Barracuda",
+            size: 120,
+            color: "black",
+            paddingLeft: 60,
+            paddingRight: 60,
+            paddingTop: 60,
+            paddingBottom: 60
+        });
+
+        let material = new Blotter.ChannelSplitMaterial();
+
+        material.uniforms.uOffset.value = 0.02;
+        material.uniforms.uRotation.value = 20;
+        material.uniforms.uAnimateNoise.value = 1; //Its used to animate noise in text
+        material.uniforms.uApplyBlur.value = 1; //Its used for blur effect in text
+
+        let blotter = new Blotter(material,{
+            texts: text
+        });
+        let scope = blotter.forText(text);
+        scope.appendTo(innerText);
+
+        document.addEventListener("mousemove", (e) => {
+            material.uniforms.uOffset.value = e.clientX * 0.0001;
+            material.uniforms.uRotation.value = e.clientY * .1;
+        })
+    </script>
+</body>
+</html>
